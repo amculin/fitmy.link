@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+interface RedirectItem {
+  source: string;
+  destination: string;
+}
+
 const nextConfig: NextConfig = {
   async redirects() {
     if (!process.env.REDIRECTS_DATA) {
@@ -8,8 +13,9 @@ const nextConfig: NextConfig = {
     }
 
     try {
-      const redirectsData = JSON.parse(process.env.REDIRECTS_DATA);
-      return redirectsData.map(item => ({
+      const redirectsData: RedirectItem[] = JSON.parse(process.env.REDIRECTS_DATA);
+
+      return redirectsData.map((item: RedirectItem) => ({
         source: item.source,
         destination: item.destination,
         permanent: true,
